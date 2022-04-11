@@ -1,0 +1,5 @@
+*.o
+*.ini
+app
+test.cpp
+prog
