@@ -18,12 +18,6 @@ struct Package {
         , discountPercent(0)
     {}
 
-    bool operator==(const Package &other) const { 
-        return (quantity == other.quantity
-            && deliveryDate == other.deliveryDate
-            && product == other.product);
-    }
-
     void increaseDiscount() {
         if (discountPercent < 95) {
             discountPercent += 5;

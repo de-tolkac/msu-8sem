@@ -14,10 +14,4 @@ struct Product {
         , price(price)
         , expDate(expDate)
     {}
-
-    bool operator==(const Product &other) const { 
-        return (name == other.name
-                && price == other.price
-                && expDate == other.expDate);
-    }
 };  

@@ -28,8 +28,6 @@ struct Experiment {
 
     bool varsDefined;
 
-    std::unordered_map<std::string, double> prices;
-
     Experiment()
         : varsDefined(false)
         , currentDay(0)
