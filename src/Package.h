@@ -13,9 +13,9 @@ struct Package {
 
     Package(const Product& product, int quantity, int deliveryDate) 
         : product(product)
+        , discountPercent(0)
         , quantity(quantity)
         , deliveryDate(deliveryDate)
-        , discountPercent(0)
     {}
 
     void increaseDiscount() {

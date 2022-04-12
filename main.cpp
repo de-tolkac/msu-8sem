@@ -196,22 +196,22 @@ int main(int argc, char** argv) {
                     ImGui::TableNextRow();
 
                     if (ImGui::TableSetColumnIndex(0))
-                        ImGui::Text(p.first.c_str());
+                        ImGui::Text("%s", p.first.c_str());
 
                     if (ImGui::TableSetColumnIndex(1))
-                        ImGui::Text(std::to_string(p.second.second).c_str());
+                        ImGui::Text("%d", p.second.second);
 
                     if (ImGui::TableSetColumnIndex(2))
-                        ImGui::Text(std::to_string(p.second.first.quantity).c_str());
+                        ImGui::Text("%d", p.second.first.quantity);
 
                     if (ImGui::TableSetColumnIndex(3))
-                        ImGui::Text(std::to_string(p.second.first.product.expDate).c_str());
+                        ImGui::Text("%d", p.second.first.product.expDate);
 
                     if (ImGui::TableSetColumnIndex(4))
-                        ImGui::Text(std::to_string(p.second.first.product.price).c_str());
+                        ImGui::Text("%f", p.second.first.product.price);
 
                     if (ImGui::TableSetColumnIndex(5))
-                        ImGui::Text(std::to_string(p.second.first.product.price - p.second.first.product.price * (p.second.first.discountPercent / 100.0)).c_str()); 
+                        ImGui::Text("%f", p.second.first.product.price - p.second.first.product.price * (p.second.first.discountPercent / 100.0)); 
 
                     if (ImGui::TableSetColumnIndex(6)) {
                         ImGui::Text("%d %%", p.second.first.discountPercent);
@@ -234,8 +234,8 @@ int main(int argc, char** argv) {
 
         if (exp.varsDefined) {
             ImGui::Begin("Заказы с продуктовых точек");
-            for (int i = 0; i < exp.warehouse.completedOrders.orders.size(); ++i) {
-                ImGui::Text("Заказ %d", i + 1);
+            for (size_t i = 0; i < exp.warehouse.completedOrders.orders.size(); ++i) {
+                ImGui::Text("Заказ %ld", i + 1);
                 if (ImGui::BeginTable("order", 4)) {
                     ImGui::TableSetupColumn("Наименование");
                     ImGui::TableSetupColumn("Количество");
@@ -246,7 +246,7 @@ int main(int argc, char** argv) {
                     for (const auto& order : exp.warehouse.completedOrders.orders[i].orders) {
                         ImGui::TableNextRow();
                         ImGui::TableSetColumnIndex(0);
-                        ImGui::Text(order.name.c_str());
+                        ImGui::Text("%s", order.name.c_str());
 
                         ImGui::TableSetColumnIndex(1);
                         ImGui::Text("%d", order.requestedQuantity);
@@ -277,7 +277,7 @@ int main(int argc, char** argv) {
                     ImGui::TableNextRow();
 
                     ImGui::TableSetColumnIndex(0);
-                    ImGui::Text(order.name.c_str());
+                    ImGui::Text("%s", order.name.c_str());
 
                     ImGui::TableSetColumnIndex(1);
                     ImGui::Text("%d", order.quantity);
