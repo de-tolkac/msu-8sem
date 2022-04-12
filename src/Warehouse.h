@@ -116,9 +116,18 @@ struct Warehouse {
         storage = storageBackup;
     }
 
+    int checkReplenishment(const std::string& name) {
+        for (int i = 0; i < replenishment.products.size(); ++i) {
+            if (replenishment.products[i].name == name)
+                return i;
+        }
+
+        return -1;
+    }
+
     void orderProductsFromSupplier(int currentDay, int minDeliveryTime, int maxDeliveryTime, int replenishmentSize) {
         for (const auto& [name, package] : storageBackup) {
-            if (package.second < minPackages) {
+            if (package.second < minPackages && checkReplenishment(name) == -1) {
                 int deliveryDate = currentDay + minDeliveryTime + rand() % ((maxDeliveryTime + 1) - minDeliveryTime);
                 replenishment.products.push_back(ReplenishmentRequestElement(name, replenishmentSize, deliveryDate));
             }
