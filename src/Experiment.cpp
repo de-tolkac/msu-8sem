@@ -37,14 +37,18 @@ Experiment::Experiment(const std::string& productsFileName, int K, int M, int N,
 void Experiment::nextDay() {
     if (currentDay != daysNumber && warehouse.generatedOrders) {
         ++currentDay;
-        profit += warehouse.dayProfit;
-        loss += warehouse.dayLoss;
         
         currentOrders.clear();
+
         warehouse.generatedOrders = false;
 
         warehouse.completedOrders.clear();
 
+        generateOrders();
+
+        profit += warehouse.dayProfit;
+        loss += warehouse.dayLoss;
+        
         warehouse.handleReplenishment(currentDay);
 
         warehouse.updateStorage();
@@ -52,7 +56,6 @@ void Experiment::nextDay() {
 }
 void Experiment::skipDays() {
     while (currentDay != daysNumber) {
-        generateOrders();
         nextDay();
     }
 }

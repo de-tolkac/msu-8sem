@@ -53,6 +53,11 @@ int main(int argc, char** argv) {
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    ImVec4 redColor(1.0f, 0.0f, 0.0f, 1.0f);
+    ImVec4 whiteColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+    bool v1, v2, v3, v4, v5, v6, v7;
+    v1 = v2 = v3 = v4 = v5 = v6 = v7 = false;
 
     Experiment exp("products.txt");
 
@@ -80,95 +85,103 @@ int main(int argc, char** argv) {
                 static char maxRequestQntBuf[64] = "50";
                 static char minProductQntBuf[64] = "3";
                 static char replenishmentSizeBuf[64] = "10";
+            
 
-                ImGui::Text("Период моделирования:");
-                ImGui::SameLine(270); 
+                ImGui::TextColored(v1 ? redColor : whiteColor, "Период моделирования (от 10 до 30):");
+                ImGui::SameLine(330); 
                 
-                ImGui::InputText("N", Nbuf, 64, ImGuiInputTextFlags_CharsDecimal);
+                ImGui::InputText("дней", Nbuf, 64, ImGuiInputTextFlags_CharsDecimal);
 
-                ImGui::Text("Кол-во видов продуктовых товаров:");
-                ImGui::SameLine(270); 
-                ImGui::InputText("K", Kbuf, 64, ImGuiInputTextFlags_CharsDecimal);
+                ImGui::TextColored(v2 ? redColor : whiteColor, "Кол-во видов продуктовых товаров (от 12 до 20):");
+                ImGui::SameLine(330); 
+                ImGui::InputText("штук##1", Kbuf, 64, ImGuiInputTextFlags_CharsDecimal);
 
-                ImGui::Text("Кол-во торговых точек:");
-                ImGui::SameLine(270); 
-                ImGui::InputText("M", Mbuf, 64, ImGuiInputTextFlags_CharsDecimal);
+                ImGui::TextColored(v3 ? redColor : whiteColor, "Кол-во торговых точек (от 3 до 9):");
+                ImGui::SameLine(330); 
+                ImGui::InputText("точек", Mbuf, 64, ImGuiInputTextFlags_CharsDecimal);
                 
-                ImGui::Text("Максимальный размер заказа позиции:");
-                ImGui::SameLine(270); 
-                ImGui::InputText("штук", maxRequestQntBuf, 64, ImGuiInputTextFlags_CharsDecimal);
+                ImGui::TextColored(v4 ? redColor : whiteColor, "Максимальный размер заказа позиции (от 1):");
+                ImGui::SameLine(330); 
+                ImGui::InputText("штук##2", maxRequestQntBuf, 64, ImGuiInputTextFlags_CharsDecimal);
 
-                ImGui::Text("Минимальный порог кол-ва упаковок:");
-                ImGui::SameLine(270); 
+                ImGui::TextColored(v5 ? redColor : whiteColor, "Минимальный порог кол-ва упаковок (от 1):");
+                ImGui::SameLine(330); 
                 ImGui::InputText("уп.", minProductQntBuf, 64, ImGuiInputTextFlags_CharsDecimal);
 
-                ImGui::Text("Количество упаковок на докупку:");
-                ImGui::SameLine(270); 
+                ImGui::TextColored(v6 ? redColor : whiteColor, "Количество упаковок на докупку (от 1):");
+                ImGui::SameLine(330); 
                 ImGui::InputText("уп.##1", replenishmentSizeBuf, 64, ImGuiInputTextFlags_CharsDecimal);
 
-                ImGui::Text("Диапазон времени на поставку:");
-                ImGui::SameLine(270); 
+                ImGui::TextColored(v7 ? redColor : whiteColor, "Диапазон времени на поставку (от 1 до 5):");
+                ImGui::SameLine(330); 
                 ImGui::InputText("от", minDeliveryTimeBuf, 64, ImGuiInputTextFlags_CharsDecimal);
                 ImGui::Text(" ");
-                ImGui::SameLine(270);
+                ImGui::SameLine(330);
                 ImGui::InputText("до", maxDeliveryTimeBuf, 64, ImGuiInputTextFlags_CharsDecimal);
 
                 ImGui::Separator();
-                if (ImGui::Button("Начать", ImVec2(120, 0))) { 
-                    if (strlen(Nbuf) && strlen(Mbuf) && strlen(Kbuf)
-                        && strlen(minDeliveryTimeBuf) && strlen(maxDeliveryTimeBuf))
-                    {   
-                        int N, K, M;
-                        int minDeliveryTime, maxDeliveryTime;
-                        int maxRequestQnt, minProductQnt;
-                        int replenishmentSize;
+                if (ImGui::Button("Начать", ImVec2(120, 0))) {    
+                    int N, K, M;
+                    int minDeliveryTime, maxDeliveryTime;
+                    int maxRequestQnt, minProductQnt;
+                    int replenishmentSize;
 
-                        K = atoi(Kbuf);
-                        N = atoi(Nbuf);
-                        M = atoi(Mbuf);
-                        minDeliveryTime = atoi(minDeliveryTimeBuf);
-                        maxDeliveryTime = atoi(maxDeliveryTimeBuf);
-                        maxRequestQnt = atoi(maxRequestQntBuf);
-                        minProductQnt = atoi(minProductQntBuf);
-                        replenishmentSize = atoi(replenishmentSizeBuf);
+                    K = atoi(Kbuf);
+                    N = atoi(Nbuf);
+                    M = atoi(Mbuf);
+                    minDeliveryTime = atoi(minDeliveryTimeBuf);
+                    maxDeliveryTime = atoi(maxDeliveryTimeBuf);
+                    maxRequestQnt = atoi(maxRequestQntBuf);
+                    minProductQnt = atoi(minProductQntBuf);
+                    replenishmentSize = atoi(replenishmentSizeBuf);
 
-                        if (K < 12 || K > 20 || N < 10 || N > 30 || M < 3 || M > 9 
-                            || minDeliveryTime < 1 || maxDeliveryTime > 5 || maxRequestQnt <= 0
-                            || minProductQnt <= 0 || replenishmentSize <= 0) 
-                        {
-                            std::cout << "Invalid input" << std::endl;
-                        } else {
-                            exp.daysNumber = N;
-                            exp.productsNumber = K;
-                            exp.shopsNumber = M;
-                            exp.maxRequestQuantity = maxRequestQnt;
-                            exp.minPackagesNumber = minProductQnt;
-                            exp.minDeliveryTime = minDeliveryTime;
-                            exp.maxDeliveryTime = maxDeliveryTime;
-                            exp.replenishmentSize = replenishmentSize;
+                    bool error = false;
 
-                            exp.warehouse.minPackages = exp.minPackagesNumber;
+                    v1 = N < 10 || N > 30;
+                    v2 = K < 12 || K > 20;
+                    v3 = M < 3 || M > 9;
+                    v4 = maxRequestQnt <= 0;
+                    v5 = minProductQnt <= 0;
+                    v6 = replenishmentSize <= 0;
+                    v7 = minDeliveryTime < 1 || minDeliveryTime > 5 || maxDeliveryTime < 1 
+                        || maxDeliveryTime > 5 || minDeliveryTime > maxDeliveryTime;
 
-                            exp.varsDefined = true;
-                            exp.nextDay();
-                            std::cout << "Saved params" << std::endl;
-                        }
+                    if (v1 || v2 || v3 || v4 || v5 || v6 || v7) {
+                        error = true;
                     } else {
-                        std::cout << "Error" << std::endl;
-                        ImGui::OpenPopup("Error");
-                        bool unused_open = true;
-                        if (ImGui::BeginPopupModal("Error", &unused_open)) {
-                            ImGui::Text("Hello from Stacked The Second!");
-                            if (ImGui::Button("Close"))
-                                ImGui::CloseCurrentPopup();
-                            ImGui::EndPopup();
-                        }
+                        exp.daysNumber = N;
+                        exp.productsNumber = K;
+                        exp.shopsNumber = M;
+                        exp.maxRequestQuantity = maxRequestQnt;
+                        exp.minPackagesNumber = minProductQnt;
+                        exp.minDeliveryTime = minDeliveryTime;
+                        exp.maxDeliveryTime = maxDeliveryTime;
+                        exp.replenishmentSize = replenishmentSize;
+
+                        exp.warehouse.minPackages = exp.minPackagesNumber;
+
+                        exp.varsDefined = true;
+
+                        exp.nextDay();
+                        
+                        std::cout << "Saved params" << std::endl;
                     }
-                    
+
+                    if (error) 
+                        ImGui::OpenPopup("Неверные параметры");
+
                     if (exp.varsDefined) {
                         ImGui::CloseCurrentPopup(); 
                     }
                 }
+
+                bool hasCloseButton = true;
+
+                if (ImGui::BeginPopupModal("Неверные параметры", &hasCloseButton)) {
+                    ImGui::Text("Исправьте значения параметров");
+                    ImGui::EndPopup();
+                }
+
                 ImGui::EndPopup();
             }
               
@@ -297,13 +310,12 @@ int main(int argc, char** argv) {
             ImGui::Text("Прибыль: %f", exp.profit);
             ImGui::Text("Убыток:    %f\n\n", exp.loss);
 
-            if (ImGui::Button("Сгенерировать заказы"))
-                exp.generateOrders();
-
             ImGui::Text(" ");
 
-            if (ImGui::Button("Следующий день"))
+            if (ImGui::Button("Следующий день")) {
                 exp.nextDay();
+            }
+
             ImGui::SameLine();
             if (ImGui::Button("До конца"))                       
                 exp.skipDays();
